@@ -1,5 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const PERIODS = [
   { key: "all", label: "All Time" },
@@ -19,20 +20,12 @@ export default function PeriodTabs({ current }: { current: string }) {
   };
 
   return (
-    <div className="flex gap-1 bg-zinc-900 rounded-lg p-1 w-fit">
-      {PERIODS.map((p) => (
-        <button
-          key={p.key}
-          onClick={() => navigate(p.key)}
-          className={`px-3 py-1.5 rounded-md text-sm transition-all ${
-            current === p.key
-              ? "bg-zinc-700 text-white font-medium"
-              : "text-zinc-400 hover:text-white"
-          }`}
-        >
-          {p.label}
-        </button>
-      ))}
-    </div>
+    <Tabs value={current} onValueChange={navigate}>
+      <TabsList>
+        {PERIODS.map((p) => (
+          <TabsTrigger key={p.key} value={p.key}>{p.label}</TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
   );
 }

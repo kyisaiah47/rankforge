@@ -4,8 +4,11 @@ import Link from "next/link";
 import { getGame, getLeaderboard } from "@/lib/dynamodb";
 import LeaderboardTable from "@/components/LeaderboardTable";
 import PeriodTabs from "@/components/PeriodTabs";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// gameIds are runtime user-generated — opt out of build-time instant-nav validation
 export const unstable_instant = false;
 
 type Period = "all" | "daily" | "weekly" | "monthly";
@@ -16,22 +19,20 @@ interface PageProps {
   searchParams: Promise<{ period?: string }>;
 }
 
-// Cached: game name/description don't change often
 async function GameHeader({ gameId }: { gameId: string }) {
   "use cache";
   const game = await getGame(gameId);
-  if (!game) return <span className="text-zinc-400">Game not found</span>;
+  if (!game) return null;
   return (
     <div>
       <h1 className="text-2xl font-bold">{game.name}</h1>
       {game.description && (
-        <p className="text-zinc-400 text-sm mt-1">{game.description}</p>
+        <p className="text-muted-foreground text-sm mt-1">{game.description}</p>
       )}
     </div>
   );
 }
 
-// Dynamic: live leaderboard data + notFound guard — must be inside Suspense
 async function LeaderboardContent({
   params,
   searchParams,
@@ -41,80 +42,82 @@ async function LeaderboardContent({
 }) {
   const { gameId } = await params;
   const { period: rawPeriod } = await searchParams;
-
-  const period: Period = VALID_PERIODS.includes(rawPeriod as Period)
-    ? (rawPeriod as Period)
-    : "all";
+  const period: Period = VALID_PERIODS.includes(rawPeriod as Period) ? (rawPeriod as Period) : "all";
 
   const [game, entries] = await Promise.all([
     getGame(gameId),
     getLeaderboard(gameId, period, 100),
   ]);
-
   if (!game) notFound();
 
   return (
     <>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6">
         <PeriodTabs current={period} />
-        <p className="text-xs text-zinc-600 font-mono hidden sm:block">
-          {gameId}
-        </p>
       </div>
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-        <LeaderboardTable gameId={gameId} initialEntries={entries} />
-      </div>
+      <Card>
+        <CardContent className="pt-6">
+          <LeaderboardTable gameId={gameId} initialEntries={entries} />
+        </CardContent>
+      </Card>
     </>
   );
 }
 
 export default function LeaderboardPage({ params, searchParams }: PageProps) {
   return (
-    <main className="min-h-screen bg-black text-white">
-      <nav className="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-bold text-lg tracking-tight">
-          RankForge
-        </Link>
-        <Link
-          href="/dashboard"
-          className="text-sm text-zinc-400 hover:text-white transition-colors"
-        >
-          Dashboard
-        </Link>
-      </nav>
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b border-border/60">
+        <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="flex items-center gap-2">
+              <span className="text-green-500 font-bold text-lg">⬡</span>
+              <span className="font-bold tracking-tight">RankForge</span>
+            </Link>
+            <span className="text-border">/</span>
+            <span className="text-sm text-muted-foreground">Leaderboard</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="gap-1 text-green-500 border-green-500/30 bg-green-500/10 hidden sm:flex">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block animate-pulse" />
+              Live
+            </Badge>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
+          </div>
+        </div>
+      </header>
 
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        <div className="flex items-start justify-between mb-6">
-          <Suspense
-            fallback={
-              <div className="h-8 w-48 bg-zinc-800 rounded animate-pulse" />
-            }
-          >
-            {params.then(({ gameId }) => (
-              <GameHeader gameId={gameId} />
-            ))}
+      <main className="max-w-3xl mx-auto px-6 py-10">
+        <div className="flex items-start justify-between mb-8">
+          <Suspense fallback={
+            <div className="space-y-2">
+              <Skeleton className="h-8 w-48" />
+              <Skeleton className="h-4 w-64" />
+            </div>
+          }>
+            {params.then(({ gameId }) => <GameHeader gameId={gameId} />)}
           </Suspense>
         </div>
 
-        <Suspense
-          fallback={
-            <div className="space-y-4">
-              <div className="h-9 w-64 bg-zinc-800 rounded-lg animate-pulse" />
-              <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-3">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="h-10 bg-zinc-800 rounded animate-pulse"
-                    style={{ opacity: 1 - i * 0.15 }}
-                  />
-                ))}
-              </div>
-            </div>
-          }
-        >
+        <Suspense fallback={
+          <div className="space-y-4">
+            <Skeleton className="h-10 w-80" />
+            <Card>
+              <CardHeader>
+                <div className="space-y-2">
+                  {[0,1,2,3,4].map((i) => (
+                    <Skeleton key={i} className="h-12 w-full" style={{ opacity: 1 - i * 0.15 }} />
+                  ))}
+                </div>
+              </CardHeader>
+            </Card>
+          </div>
+        }>
           <LeaderboardContent params={params} searchParams={searchParams} />
         </Suspense>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

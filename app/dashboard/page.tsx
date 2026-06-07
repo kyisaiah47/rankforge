@@ -1,6 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import CreateGameModal from "@/components/CreateGameModal";
 
 interface Game {
@@ -25,71 +29,77 @@ export default function DashboardPage() {
   useEffect(() => { load(); }, []);
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <nav className="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-bold text-lg tracking-tight">
-          RankForge
-        </Link>
-        <span className="text-sm text-zinc-400">Dashboard</span>
-      </nav>
-
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-2xl font-bold">Your Games</h1>
-            <p className="text-zinc-400 text-sm mt-1">
-              Register a game to get an API key and start submitting scores.
-            </p>
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b border-border/60">
+        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="flex items-center gap-2">
+              <span className="text-green-500 font-bold text-lg">⬡</span>
+              <span className="font-bold tracking-tight">RankForge</span>
+            </Link>
+            <span className="text-border">/</span>
+            <span className="text-sm text-muted-foreground">Dashboard</span>
           </div>
           <CreateGameModal onCreated={() => load()} />
         </div>
+      </header>
+
+      <main className="max-w-5xl mx-auto px-6 py-10">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold mb-1">Your Games</h1>
+          <p className="text-muted-foreground text-sm">
+            Register a game to get an API key and start submitting scores.
+          </p>
+        </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 animate-pulse h-28"
-              />
+              <Card key={i}>
+                <CardHeader>
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-1/2 mt-1" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-3 w-full" />
+                </CardContent>
+              </Card>
             ))}
           </div>
         ) : games.length === 0 ? (
-          <div className="text-center py-24 text-zinc-500">
-            <p className="text-4xl mb-4">🎮</p>
-            <p className="font-medium">No games yet</p>
-            <p className="text-sm mt-1">Create one to get your first API key</p>
-          </div>
+          <Card className="text-center py-20">
+            <CardContent>
+              <p className="text-4xl mb-4">🎮</p>
+              <p className="font-semibold text-foreground mb-1">No games yet</p>
+              <p className="text-muted-foreground text-sm mb-6">Create one to get your first API key</p>
+              <CreateGameModal onCreated={() => load()} />
+            </CardContent>
+          </Card>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {games.map((game) => (
-              <Link
-                key={game.gameId}
-                href={`/leaderboard/${game.gameId}`}
-                className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-zinc-600 transition-colors group"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h2 className="font-semibold group-hover:text-white transition-colors">
-                      {game.name}
-                    </h2>
+              <Link key={game.gameId} href={`/leaderboard/${game.gameId}`}>
+                <Card className="hover:border-border transition-colors cursor-pointer h-full group">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <CardTitle className="text-base group-hover:text-foreground transition-colors">
+                        {game.name}
+                      </CardTitle>
+                      <span className="text-muted-foreground group-hover:text-foreground transition-colors text-sm shrink-0">→</span>
+                    </div>
                     {game.description && (
-                      <p className="text-zinc-400 text-sm mt-1 line-clamp-2">
-                        {game.description}
-                      </p>
+                      <CardDescription className="line-clamp-2 text-xs">{game.description}</CardDescription>
                     )}
-                  </div>
-                  <span className="text-zinc-600 group-hover:text-zinc-400 transition-colors text-sm mt-0.5">
-                    →
-                  </span>
-                </div>
-                <p className="text-xs text-zinc-600 mt-4 font-mono">
-                  {game.gameId}
-                </p>
+                  </CardHeader>
+                  <CardContent>
+                    <Badge variant="secondary" className="font-mono text-xs">{game.gameId}</Badge>
+                  </CardContent>
+                </Card>
               </Link>
             ))}
           </div>
         )}
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
