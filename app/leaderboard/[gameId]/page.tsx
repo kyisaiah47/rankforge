@@ -72,11 +72,11 @@ export default function LeaderboardPage({ params, searchParams }: PageProps) {
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <LogoFull />
-            <span className="text-white/20">/</span>
+            <span className="text-border">/</span>
             <span className="text-sm text-muted-foreground">Leaderboard</span>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="gap-1 text-green-500 border-green-500/30 bg-green-500/10 hidden sm:flex">
+            <Badge variant="outline" className="gap-1 border-primary/40 text-primary hidden sm:flex">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block animate-pulse" />
               Live
             </Badge>

@@ -35,7 +35,7 @@ export default function DashboardPage() {
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <LogoFull />
-            <span className="text-white/20">/</span>
+            <span className="text-border">/</span>
             <span className="text-sm text-muted-foreground">Dashboard</span>
           </div>
           <CreateGameModal onCreated={() => load()} />

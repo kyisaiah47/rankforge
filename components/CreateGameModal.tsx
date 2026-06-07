@@ -92,7 +92,7 @@ export default function CreateGameModal({ onCreated }: { onCreated: (g: Game) =>
                 <div className="space-y-1.5">
                   <p className="text-xs text-muted-foreground font-medium">API Key</p>
                   <div className="flex gap-2">
-                    <code className="flex-1 bg-muted rounded-lg px-3 py-2 text-xs font-mono text-green-400 break-all">
+                    <code className="flex-1 bg-muted rounded-lg px-3 py-2 text-xs font-mono text-primary break-all">
                       {created.apiKey}
                     </code>
                     <Button variant="outline" size="sm" onClick={copy} className="shrink-0">

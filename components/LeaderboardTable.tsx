@@ -87,22 +87,22 @@ export default function LeaderboardTable({
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <Avatar className="h-7 w-7">
-                      <AvatarFallback className={`text-xs font-bold ${isFirst ? "bg-yellow-500/20 text-yellow-400" : "bg-muted text-muted-foreground"}`}>
+                      <AvatarFallback className={`text-xs font-bold ${isFirst ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"}`}>
                         {entry.playerName[0].toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <span className={`text-sm font-medium ${isFirst ? "text-yellow-400" : ""}`}>
+                    <span className={`text-sm font-medium ${isFirst ? "text-primary" : ""}`}>
                       {entry.playerName}
                     </span>
                     {isFlashing && (
-                      <Badge variant="secondary" className="text-green-500 text-xs border-green-500/30 bg-green-500/10">
+                      <Badge variant="outline" className="text-primary text-xs border-primary/30">
                         ↑ new best
                       </Badge>
                     )}
                   </div>
                 </TableCell>
                 <TableCell className="text-right">
-                  <span className={`font-mono font-semibold ${isFirst ? "text-yellow-400" : "text-green-500"}`}>
+                  <span className={`font-mono font-semibold ${isFirst ? "text-primary font-bold" : "text-primary/70"}`}>
                     {entry.score.toLocaleString()}
                   </span>
                 </TableCell>

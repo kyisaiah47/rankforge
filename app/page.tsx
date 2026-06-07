@@ -33,7 +33,7 @@ export default function Home() {
         />
 
         <div className="relative z-10">
-          <Badge variant="secondary" className="mb-8 gap-2">
+          <Badge variant="outline" className="mb-8 gap-2 border-border bg-transparent text-muted-foreground">
             <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block animate-pulse" />
             Powered by AWS DynamoDB + Vercel
           </Badge>
