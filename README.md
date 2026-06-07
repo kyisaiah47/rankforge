@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RankForge
 
-## Getting Started
+**Leaderboard-as-a-service for game developers — built for the [H0: Hack the Zero Stack](https://h0hackathon.devpost.com/) hackathon.**
 
-First, run the development server:
+Track 3: Million-scale global app · AWS DynamoDB + Vercel
+
+---
+
+## What it does
+
+RankForge gives game developers a drop-in leaderboard API and live UI in minutes. Game clients POST scores via a key-authenticated REST API. Players see their rank update in real time. Multi-period boards (all-time, daily, weekly, monthly) run automatically with DynamoDB TTL-based cleanup — no cron jobs needed.
+
+## Architecture
+
+```
+Game Client
+    │  POST /api/scores  (API key auth)
+    ▼
+Next.js API Routes (Vercel)
+    │
+    ├── DynamoDB single-table design
+    │     PK: GAME#{gameId}  SK: SCORE#{score}#{playerId}
+    │     GSI1: leaderboard queries (score desc, O(1) reads)
+    │     TTL attribute: auto-expires daily/weekly/monthly entries
+    │
+    └── SSE stream  /api/stream/[gameId]
+          → pushes score events to connected clients
+
+Leaderboard Page  (Next.js 16 Partial Prerendering)
+    ├── Static shell  (instant)
+    └── Streaming dynamic content via Suspense
+```
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 16.2, React 19, Tailwind CSS |
+| Database | AWS DynamoDB (single-table design + GSI) |
+| Deployment | Vercel |
+| Real-time | Server-Sent Events |
+| Caching | Next.js 16 `'use cache'` (game metadata) |
+
+## Getting started
+
+### 1. Prerequisites
+
+- Node.js 20+
+- AWS account with DynamoDB access
+- Vercel account
+
+### 2. Environment variables
+
+```bash
+cp .env.local.example .env.local
+```
+
+```env
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=us-east-1
+DYNAMODB_TABLE_NAME=rankforge
+```
+
+### 3. Create the DynamoDB table
+
+```bash
+npm install
+npm run db:create
+```
+
+Then enable TTL on the `ttl` attribute in the AWS console (DynamoDB → Tables → rankforge → Additional settings → TTL).
+
+### 4. Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 5. Deploy
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+vercel deploy
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Add the environment variables to your Vercel project.
 
-## Learn More
+## API
 
-To learn more about Next.js, take a look at the following resources:
+### Submit a score
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```http
+POST /api/scores
+Authorization: Bearer <api-key>
+Content-Type: application/json
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+{
+  "gameId": "my-game",
+  "playerId": "user-123",
+  "playerName": "Alice",
+  "score": 9850,
+  "period": "daily"
+}
+```
 
-## Deploy on Vercel
+### Get leaderboard
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```http
+GET /api/leaderboard/[gameId]?period=daily&limit=100
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Real-time stream
+
+```http
+GET /api/stream/[gameId]
+Accept: text/event-stream
+```
