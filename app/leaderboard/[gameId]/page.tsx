@@ -56,7 +56,7 @@ async function LeaderboardContent({
       <div className="mb-6">
         <PeriodTabs current={period} />
       </div>
-      <Card className="border-white/8 bg-[#111] shadow-xl shadow-black/40">
+      <Card className="shadow-xl shadow-black/40">
         <CardContent className="pt-6">
           <LeaderboardTable gameId={gameId} initialEntries={entries} />
         </CardContent>
@@ -67,8 +67,8 @@ async function LeaderboardContent({
 
 export default function LeaderboardPage({ params, searchParams }: PageProps) {
   return (
-    <div className="min-h-screen bg-[#080808] text-foreground">
-      <header className="border-b border-white/8 bg-[#080808]/90 backdrop-blur-md">
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b border-border bg-background/90 backdrop-blur-md">
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <LogoFull />

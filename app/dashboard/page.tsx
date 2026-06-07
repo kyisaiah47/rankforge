@@ -30,8 +30,8 @@ export default function DashboardPage() {
   useEffect(() => { load(); }, []);
 
   return (
-    <div className="min-h-screen bg-[#080808] text-foreground">
-      <header className="border-b border-white/8 bg-[#080808]/90 backdrop-blur-md">
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b border-border bg-background/90 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <LogoFull />
@@ -77,7 +77,7 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {games.map((game) => (
               <Link key={game.gameId} href={`/leaderboard/${game.gameId}`}>
-                <Card className="hover:border-white/15 border-white/8 bg-[#111] transition-colors cursor-pointer h-full group">
+                <Card className="hover:border-primary/30 transition-colors cursor-pointer h-full group">
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between gap-2">
                       <CardTitle className="text-base group-hover:text-foreground transition-colors">
