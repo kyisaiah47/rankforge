@@ -64,7 +64,7 @@ export default function Home() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-sm font-semibold">Space Raiders — All Time</CardTitle>
-                <Badge variant="secondary" className="gap-1.5 text-xs">
+                <Badge variant="outline" className="gap-1.5 text-xs border-primary/40 text-primary bg-primary/10">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse inline-block" />
                   Live
                 </Badge>

@@ -90,7 +90,7 @@ export default function DashboardPage() {
                     )}
                   </CardHeader>
                   <CardContent>
-                    <Badge variant="secondary" className="font-mono text-xs">{game.gameId}</Badge>
+                    <Badge variant="outline" className="font-mono text-xs border-primary/40 text-primary bg-primary/10">{game.gameId}</Badge>
                   </CardContent>
                 </Card>
               </Link>
