@@ -77,7 +77,7 @@ export default function LeaderboardPage({ params, searchParams }: PageProps) {
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="gap-1 border-primary/40 text-primary hidden sm:flex">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block animate-pulse" />
               Live
             </Badge>
             <Button asChild variant="outline" size="sm">

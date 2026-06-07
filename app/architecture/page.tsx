@@ -8,7 +8,7 @@ export default function ArchitecturePage() {
       <div className="max-w-5xl mx-auto">
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-green-400 font-bold text-xl">⬡</span>
+            <span className="text-primary font-bold text-xl">⬡</span>
             <span className="font-bold text-lg">RankForge</span>
           </div>
           <h1 className="text-2xl font-bold mb-1">Architecture Diagram</h1>
@@ -184,7 +184,7 @@ export default function ArchitecturePage() {
             {
               title: "Partial Prerendering",
               body: "Next.js 16 PPR serves a static HTML shell from the CDN edge instantly. Live scores stream in behind a Suspense boundary — fast first paint + fresh data.",
-              color: "border-green-800/60 bg-green-950/20",
+              color: "border-primary/30 bg-primary/10",
             },
             {
               title: "TTL-based multi-period",

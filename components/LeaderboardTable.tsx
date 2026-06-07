@@ -74,8 +74,8 @@ export default function LeaderboardTable({
               <TableRow
                 key={entry.playerId}
                 className={`transition-colors duration-500 ${
-                  isFlashing ? "bg-green-500/10" : ""
-                } ${isFirst ? "bg-yellow-500/5" : ""}`}
+                  isFlashing ? "bg-primary/10" : ""
+                } ${isFirst ? "bg-primary/5" : ""}`}
               >
                 <TableCell className="font-medium">
                   {isTop3 ? (
@@ -115,7 +115,7 @@ export default function LeaderboardTable({
         </TableBody>
       </Table>
       <div className="mt-4 flex items-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block animate-pulse" />
         <span className="text-xs text-muted-foreground">Live · updates every 5s</span>
       </div>
     </div>
