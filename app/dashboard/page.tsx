@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import CreateGameModal from "@/components/CreateGameModal";
+import { LogoFull } from "@/components/Logo";
 
 interface Game {
   gameId: string;
@@ -29,15 +30,12 @@ export default function DashboardPage() {
   useEffect(() => { load(); }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border/60">
+    <div className="min-h-screen bg-[#080808] text-foreground">
+      <header className="border-b border-white/8 bg-[#080808]/90 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="text-green-500 font-bold text-lg">⬡</span>
-              <span className="font-bold tracking-tight">RankForge</span>
-            </Link>
-            <span className="text-border">/</span>
+          <div className="flex items-center gap-3">
+            <LogoFull />
+            <span className="text-white/20">/</span>
             <span className="text-sm text-muted-foreground">Dashboard</span>
           </div>
           <CreateGameModal onCreated={() => load()} />
@@ -79,7 +77,7 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {games.map((game) => (
               <Link key={game.gameId} href={`/leaderboard/${game.gameId}`}>
-                <Card className="hover:border-border transition-colors cursor-pointer h-full group">
+                <Card className="hover:border-white/15 border-white/8 bg-[#111] transition-colors cursor-pointer h-full group">
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between gap-2">
                       <CardTitle className="text-base group-hover:text-foreground transition-colors">
