@@ -12,7 +12,7 @@ function Card({
       data-slot="card"
       data-size={size}
       className={cn(
-        "group/card relative flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-gradient-to-b from-[#1a1a1a] to-[#0e0e0e] py-(--card-spacing) text-sm text-card-foreground [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl before:pointer-events-none before:absolute before:inset-0 before:rounded-xl before:p-px before:bg-gradient-to-b before:from-white/15 before:to-white/4 before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] before:[mask-composite:exclude]",
+        "group/card relative flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-gradient-to-b from-[#222] to-[#0a0a0a] py-(--card-spacing) text-sm text-card-foreground [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl before:pointer-events-none before:absolute before:inset-0 before:rounded-xl before:p-px before:bg-gradient-to-b before:from-white/15 before:to-white/4 before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] before:[mask-composite:exclude]",
         className
       )}
       {...props}
