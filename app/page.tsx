@@ -207,7 +207,7 @@ function ApiBlock({ method, path, description, auth, body, response }: {
 }) {
   return (
     <Card>
-      <CardContent className="pt-5">
+      <CardContent className="pt-4 pb-4">
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <Badge variant={method === "POST" ? "default" : "secondary"} className="font-mono text-xs">{method}</Badge>
           <code className="font-mono text-sm text-foreground">{path}</code>
