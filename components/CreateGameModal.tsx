@@ -48,7 +48,7 @@ export default function CreateGameModal({ onCreated }: { onCreated: (g: Game) =>
     <>
       <Button size="sm" onClick={() => setOpen(true)}>+ New Game</Button>
       <Dialog open={open} onOpenChange={(o) => { if (!o) reset(); setOpen(o); }}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg">
           {!created ? (
             <>
               <DialogHeader>
