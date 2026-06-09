@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/banner.png" alt="banner" width="100%" />
+
 # 🏅 RankForge
 
 **Drop-in leaderboard-as-a-service for game developers — built for the H0 Hackathon.**
