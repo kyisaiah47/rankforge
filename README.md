@@ -44,6 +44,8 @@ RankForge gives game developers a drop-in leaderboard API and live UI in minutes
 
 ## 📐 Architecture
 
+An interactive architecture diagram is available at the `/architecture` route of the live deployment.
+
 ```
 Game Client
     │  POST /api/scores  (API key auth)
@@ -137,6 +139,15 @@ GET /api/leaderboard/[gameId]?period=daily&limit=100
 GET /api/stream/[gameId]
 Accept: text/event-stream
 ```
+
+## Submission Info
+
+| Field | Value |
+|---|---|
+| Vercel Project URL | https://rankforge.vercel.app |
+| Vercel Team ID | team_2hYY71qdn1MSFXL9CfX1uDp3 |
+| AWS Database | DynamoDB |
+| Track | Track 3: Million-Scale Global App |
 
 ## 📄 License
 
